@@ -68,9 +68,9 @@ func Get(conn DbConnection, id int) (Ad, error) {
 	return ad, nil
 }
 
-func All(conn DbConnection) ([]Ad, error) {
+func All(conn DbConnection, pageNumber int) ([]Ad, error) {
 	var ads []Ad
-	rows, err := conn.Query(context.Background(), "SELECT * FROM ad")
+	rows, err := conn.Query(context.Background(), "SELECT * FROM ad LIMIT 10 OFFSET $1", pageNumber*10)
 	if err != nil {
 		return nil, err
 	}

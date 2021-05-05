@@ -15,23 +15,28 @@ type AdDTO struct {
 	Created 	*time.Time	`json:"created,omitempty"`
 }
 
+type AdsDTO struct {
+	Id 		int64
+	Name 	string
+	Price 	float64
+	Photos 	string
+}
 
-func GetAds(conn models.DbConnection) ([]AdDTO, error) {
-	var addtos []AdDTO
-	ads, err := models.All(conn)
+
+func GetAds(conn models.DbConnection, pageNumber int) ([]AdsDTO, error) {
+	ads, err := models.All(conn, pageNumber)
+	var adsdto []AdsDTO
 	for _, ad := range ads {
-		addto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price}
-
+		dto := AdsDTO{Id: ad.Id, Name: ad.Name, Price: ad.Price}
 		if len(ad.Photos) > 0 {
-			temp := []string{ad.Photos[0]}
-			addto.Photos = &temp
+			dto.Photos = ad.Photos[0]
 		}
-		addtos = append(addtos, addto)
+		adsdto = append(adsdto, dto)
 	}
 	if err != nil {
-		return addtos, err
+		return adsdto, err
 	}
-	return addtos, err
+	return adsdto, err
 }
 
 func GetAdById(conn models.DbConnection, id int, params []string) (AdDTO, error) {

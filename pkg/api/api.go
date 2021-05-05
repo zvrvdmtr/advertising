@@ -17,7 +17,12 @@ func GetList(conn models.DbConnection) http.HandlerFunc {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
-		ads, err := services.GetAds(conn)
+		pageNumber, err := strconv.Atoi(r.URL.Query()["page"][0])
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		ads, err := services.GetAds(conn, pageNumber)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
