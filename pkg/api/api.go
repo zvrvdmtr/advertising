@@ -28,8 +28,8 @@ func GetList(conn models.DbConnection) http.HandlerFunc {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		w.Write(response)
 		w.WriteHeader(http.StatusOK)
+		w.Write(response)
 	}
 }
 

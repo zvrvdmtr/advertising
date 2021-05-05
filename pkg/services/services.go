@@ -1,24 +1,54 @@
 package services
 
 import (
+	"time"
+
 	"github.com/zvrvdmtr/advertising/pkg/models"
 )
 
-
-func GetAds(conn models.DbConnection) ([]models.Ad, error) {
-	ads, err := models.All(conn)
-	if err != nil {
-		return ads, err
-	}
-	return ads, err
+type AdDTO struct {
+	Id          *int64 		`json:"id"`
+	Name        *string		`json:"name"`
+	Price       *float64	`json:"price"`
+	Photos      *[]string	`json:"photos,omitempty"`
+	Description *string		`json:"description,omitempty"`
+	Created 	*time.Time	`json:"created,omitempty"`
 }
 
-func GetAdById(conn models.DbConnection, id int, params []string) (models.Ad, error) {
-	ad, err := models.Get(conn, id, params)
-	if err != nil {
-		return ad, err
+
+func GetAds(conn models.DbConnection) ([]AdDTO, error) {
+	var addtos []AdDTO
+	ads, err := models.All(conn)
+	for _, ad := range ads {
+		addto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price}
+
+		if len(ad.Photos) > 0 {
+			temp := []string{ad.Photos[0]}
+			addto.Photos = &temp
+		}
+		addtos = append(addtos, addto)
 	}
-	return ad, nil
+	if err != nil {
+		return addtos, err
+	}
+	return addtos, err
+}
+
+func GetAdById(conn models.DbConnection, id int, params []string) (AdDTO, error) {
+	ad, err := models.Get(conn, id)
+	dto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price, Photos: nil, Created: &ad.Created}
+	for _, param := range params {
+		switch param {
+		case "description":
+			dto.Description = &ad.Description
+		case "photos":
+			dto.Photos = &ad.Photos
+		}
+	}
+	if err != nil {
+		return dto, err
+	}
+	return dto, nil
 }
 
 func CreateAd(conn models.DbConnection, ad models.Ad) (models.Ad, error) {

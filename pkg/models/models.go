@@ -12,9 +12,9 @@ import (
 type Ad struct {
 	Id          int64 		`json:"id"`
 	Name        string		`json:"name"`
-	Description string		`json:"description,omitempty"`
+	Description string		`json:"description"`
 	Price       float64		`json:"price"`
-	Photos      []string	`json:"photos,omitempty"`
+	Photos      []string	`json:"photos"`
 	Created     time.Time	`json:"created"`
 }
 
@@ -56,24 +56,13 @@ type DbConnection interface {
 	Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error)
 }
 
-func Get(conn DbConnection, id int, params []string) (Ad, error) {
-	var photos []string
-	var description string
+func Get(conn DbConnection, id int) (Ad, error) {
 	var ad Ad
 
 	row := conn.QueryRow(context.Background(), "SELECT * FROM ad where id = $1", id)
-	err := row.Scan(&ad.Id, &ad.Name, &description, &ad.Price, &photos, &ad.Created)
+	err := row.Scan(&ad.Id, &ad.Name, &ad.Description, &ad.Price, &ad.Photos, &ad.Created)
 	if err != nil {
 		return ad, err
-	}
-
-	for _, param := range params {
-		switch param {
-		case "photos":
-			ad.Photos = photos
-		case "description":
-			ad.Description = description
-		}
 	}
 
 	return ad, nil
