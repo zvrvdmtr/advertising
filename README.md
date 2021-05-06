@@ -17,7 +17,7 @@ This will run service and make migrations
 
 ## ENDPOINTS
 
-### 1. Create 
+### 1. Create ad
 URL: `/create` - POST \
 Payload:
 ```
@@ -43,7 +43,7 @@ Response:
 }
 ```
 
-### 2. Single Ad
+### 2. Get Ad
 URL: `/get/{id}` - GET \
 Params: You can pass "description" or/and "photos" with param "Fields" for more information \
 `?fields=description&fields=photos` \
