@@ -1,5 +1,20 @@
 Test task for Avito trinee/junior developer https://github.com/avito-tech/adv-backend-trainee-assignment
 
+## Description
+It is a small web service written in Go for educational purposes. I only used stdlib (except db driver).
+
+## How to start
+
+### 1. Docker
+1. Run command: `docker-compose up` \
+service will run on localhost:8000
+
+### 2. local
+1. Run database: `docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres postgres:12` \
+Thiw will run database
+2. Run service: `go run main.go` \
+This will run service and make migrations
+
 ## ENDPOINTS
 
 ### 1. Create 
