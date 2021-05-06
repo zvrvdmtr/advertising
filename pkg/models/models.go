@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"github.com/jackc/pgconn"
 
 	"github.com/jackc/pgx/v4"
 )
@@ -57,7 +58,19 @@ func (a *Ad) UnmarshalJSON(data []byte) error {
 type DbConnection interface {
 	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
 	Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error)
+	Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error)
 }
+
+var conn DbConnection
+
+func InitDB(databaseUrl string) (DbConnection, error) {
+	conn, err := pgx.Connect(context.Background(), databaseUrl)
+	if err != nil {
+		return conn, err
+	}
+	return conn, nil
+}
+
 
 func Get(conn DbConnection, id int) (Ad, error) {
 	var ad Ad
