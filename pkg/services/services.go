@@ -19,7 +19,7 @@ type AdsDTO struct {
 	Id 		int64
 	Name 	string
 	Price 	float64
-	Photos 	string
+	Photo 	string
 }
 
 
@@ -29,7 +29,7 @@ func GetAds(conn models.DbConnection, pageNumber int) ([]AdsDTO, error) {
 	for _, ad := range ads {
 		dto := AdsDTO{Id: ad.Id, Name: ad.Name, Price: ad.Price}
 		if len(ad.Photos) > 0 {
-			dto.Photos = ad.Photos[0]
+			dto.Photo = ad.Photos[0]
 		}
 		adsdto = append(adsdto, dto)
 	}

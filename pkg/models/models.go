@@ -38,6 +38,9 @@ func (a *Ad) UnmarshalJSON(data []byte) error {
 	if validate.Price == nil {
 		return fmt.Errorf("Required field Price is missing")
 	}
+	if len(validate.Photos) > 3 {
+		return fmt.Errorf("Max 3 photo")
+	}
 
 	if err != nil {
 		return err

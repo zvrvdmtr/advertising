@@ -17,10 +17,17 @@ func GetList(conn models.DbConnection) http.HandlerFunc {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
-		pageNumber, err := strconv.Atoi(r.URL.Query()["page"][0])
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
+
+		// FIXME: Bad codestyle
+		page := r.URL.Query().Get("page")
+		var pageNumber int
+		var err error
+		if page != "" {
+			pageNumber, err = strconv.Atoi(r.URL.Query().Get("page"))
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
 		}
 		ads, err := services.GetAds(conn, pageNumber)
 		if err != nil {
@@ -81,6 +88,7 @@ func CreateAd(conn models.DbConnection) http.HandlerFunc {
 		err = json.Unmarshal(body, &ad)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
 			return
 		}
 
