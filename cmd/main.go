@@ -1,14 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
-	"context"
+
 	"github.com/zvrvdmtr/advertising/pkg/api"
 	"github.com/zvrvdmtr/advertising/pkg/handler"
 	"github.com/zvrvdmtr/advertising/pkg/models"
 )
-
 
 func main() {
 	conn, err := models.InitDB("postgres://postgres:postgres@postgres:5432/postgres")

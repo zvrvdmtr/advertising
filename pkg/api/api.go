@@ -45,7 +45,7 @@ func GetList(conn models.DbConnection) http.HandlerFunc {
 	}
 }
 
-func GetAd(conn models.DbConnection) http.HandlerFunc {
+func GetAd(conn models.DbConnectionRow) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -70,7 +70,7 @@ func GetAd(conn models.DbConnection) http.HandlerFunc {
 	}
 }
 
-func CreateAd(conn models.DbConnection) http.HandlerFunc {
+func CreateAd(conn models.DbConnectionRow) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)

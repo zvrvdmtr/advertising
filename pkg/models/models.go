@@ -55,15 +55,18 @@ func (a *Ad) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type DbConnection interface {
+type DbConnectionRow interface {
 	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
+}
+
+type DbConnection interface {
 	Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error)
 	Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error)
 }
 
-var conn DbConnection
+var conn pgx.Conn
 
-func InitDB(databaseUrl string) (DbConnection, error) {
+func InitDB(databaseUrl string) (*pgx.Conn, error) {
 	conn, err := pgx.Connect(context.Background(), databaseUrl)
 	if err != nil {
 		return conn, err
@@ -72,7 +75,7 @@ func InitDB(databaseUrl string) (DbConnection, error) {
 }
 
 
-func Get(conn DbConnection, id int) (Ad, error) {
+func Get(conn DbConnectionRow, id int) (Ad, error) {
 	var ad Ad
 
 	row := conn.QueryRow(context.Background(), "SELECT * FROM ad where id = $1", id)
@@ -101,7 +104,7 @@ func All(conn DbConnection, pageNumber int) ([]Ad, error) {
 	return ads, err
 }
 
-func Create(conn DbConnection, ad Ad) (Ad, error) {
+func Create(conn DbConnectionRow, ad Ad) (Ad, error) {
 	var newAd Ad
 	insertQuery := `INSERT INTO ad (name, description, price, photos, created) VALUES ($1, $2, $3, $4, $5) RETURNING *`
 	row := conn.QueryRow(context.Background(), insertQuery, ad.Name, ad.Description, ad.Price, ad.Photos, time.Now())
