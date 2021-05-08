@@ -2,7 +2,6 @@ package services
 
 import (
 	"time"
-
 	"github.com/zvrvdmtr/advertising/pkg/models"
 )
 
@@ -39,7 +38,7 @@ func GetAds(conn models.DbConnection, pageNumber int) ([]AdsDTO, error) {
 	return adsdto, err
 }
 
-func GetAdById(conn models.DbConnection, id int, params []string) (AdDTO, error) {
+func GetAdById(conn models.DbConnectionRow, id int, params []string) (AdDTO, error) {
 	ad, err := models.Get(conn, id)
 	dto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price, Photos: nil, Created: &ad.Created}
 	for _, param := range params {
@@ -56,7 +55,7 @@ func GetAdById(conn models.DbConnection, id int, params []string) (AdDTO, error)
 	return dto, nil
 }
 
-func CreateAd(conn models.DbConnection, ad models.Ad) (models.Ad, error) {
+func CreateAd(conn models.DbConnectionRow, ad models.Ad) (models.Ad, error) {
 	newAd, err := models.Create(conn, ad)
 	if err != nil {
 		return newAd, err
