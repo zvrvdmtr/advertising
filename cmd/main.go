@@ -8,10 +8,11 @@ import (
 	"github.com/zvrvdmtr/advertising/pkg/api"
 	"github.com/zvrvdmtr/advertising/pkg/handler"
 	"github.com/zvrvdmtr/advertising/pkg/models"
+	"os"
 )
 
 func main() {
-	conn, err := models.InitDB("postgres://postgres:postgres@postgres:5432/postgres")
+	conn, err := models.InitDB(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		fmt.Println(err.Error())
 		return

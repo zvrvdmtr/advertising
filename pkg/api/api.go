@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -53,6 +54,7 @@ func GetAd(conn models.DbConnectionRow) http.HandlerFunc {
 		}
 
 		path := strings.Split(r.URL.Path, "/")
+		fmt.Println(path)
 		elemId, _ := strconv.Atoi(path[len(path)-1])
 		ad, err := services.GetAdById(conn, elemId, r.URL.Query()["fields"])
 		if err != nil {
