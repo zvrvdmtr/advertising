@@ -13,6 +13,7 @@ import (
 
 func main() {
 	conn, err := models.InitDB(os.Getenv("DATABASE_URL"))
+	port := os.Getenv("PORT")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -35,5 +36,5 @@ func main() {
 	handler.HandleFunc("/ads", api.GetList(conn))
 	handler.HandleFunc("/create", api.CreateAd(conn))
 	fmt.Println("Connection established on localhost:8000")
-	http.ListenAndServe(":8000", handler)
+	http.ListenAndServe(":"+port, handler)
 }
