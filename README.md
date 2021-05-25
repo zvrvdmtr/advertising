@@ -18,7 +18,7 @@ This will run service and make migrations
 ## ENDPOINTS
 
 ### 1. Create ad
-URL: `/create` - POST \
+PATH: `/create` - POST \
 Payload:
 ```
 {
@@ -44,7 +44,7 @@ Response:
 ```
 
 ### 2. Get Ad
-URL: `/ad/{id}` - GET \
+PATH: `/ad/{id}` - GET \
 Params: You can pass "description" or/and "photos" with param "Fields" for more information \
 `?fields=description&fields=photos` \
 Full url: `http://localhost:8000/ad/8?fields=description&fields=photos`
@@ -63,7 +63,7 @@ Response:
 
 
 ### 3. List ad
-URL: `/ads` - GET \
+PATH: `/ads` - GET \
 Params: You can pass "page" for pagination \
 Full url: `http://localhost:8000/ads?page=1`
 
