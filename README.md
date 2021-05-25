@@ -44,7 +44,7 @@ Response:
 ```
 
 ### 2. Get Ad
-URL: `/get/{id}` - GET \
+URL: `/ad/{id}` - GET \
 Params: You can pass "description" or/and "photos" with param "Fields" for more information \
 `?fields=description&fields=photos` \
 Full url: `http://localhost:8000/ad/8?fields=description&fields=photos`
@@ -63,7 +63,7 @@ Response:
 
 
 ### 3. List ad
-URL: `/asd` - GET \
+URL: `/ads` - GET \
 Params: You can pass "page" for pagination \
 Full url: `http://localhost:8000/ads?page=1`
 
