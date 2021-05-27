@@ -5,7 +5,7 @@ import (
 	"testing"
 	"reflect"
 	"github.com/jackc/pgx/v4"
-	"github.com/zvrvdmtr/advertising/pkg/models"
+	"github.com/zvrvdmtr/advertising/internal/models"
 )
 
 type MockRow struct {

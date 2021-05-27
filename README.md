@@ -1,7 +1,7 @@
-Test task for Avito trinee/junior developer https://github.com/avito-tech/adv-backend-trainee-assignment
+Test task for Avito trainee/junior developer https://github.com/avito-tech/adv-backend-trainee-assignment
 
 ## Description
-It is a small web service written in Go for educational purposes. I only used stdlib (except db driver).
+It is a small web service written in Go for educational purposes. I only used standard library (except db driver).
 
 ## How to start
 
@@ -9,9 +9,9 @@ It is a small web service written in Go for educational purposes. I only used st
 1. Run command: `docker-compose up` \
 service will run on localhost:8000
 
-### 2. local
+### 2. Local
 1. Run database: `docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres postgres:12` \
-Thiw will run database
+This will run database
 2. Run service: `go run main.go` \
 This will run service and make migrations
 
@@ -45,7 +45,7 @@ Response:
 
 ### 2. Get Ad
 PATH: `/ad/{id}` - GET \
-Params: You can pass "description" or/and "photos" with param "Fields" for more information \
+Parameters: You can pass "description" or/and "photos" with parameter "Fields" for more information \
 `?fields=description&fields=photos` \
 Full url: `http://localhost:8000/ad/8?fields=description&fields=photos`
 
@@ -64,7 +64,7 @@ Response:
 
 ### 3. List ad
 PATH: `/ads` - GET \
-Params: You can pass "page" for pagination \
+Parameters: You can pass "page" for pagination \
 Full url: `http://localhost:8000/ads?page=1`
 
 Response:

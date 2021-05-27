@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/zvrvdmtr/advertising/pkg/api"
-	"github.com/zvrvdmtr/advertising/pkg/handler"
-	"github.com/zvrvdmtr/advertising/pkg/models"
+	"github.com/zvrvdmtr/advertising/internal/api"
+	"github.com/zvrvdmtr/advertising/internal/handler"
+	"github.com/zvrvdmtr/advertising/internal/models"
 	"os"
 )
 

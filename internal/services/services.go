@@ -2,7 +2,7 @@ package services
 
 import (
 	"time"
-	"github.com/zvrvdmtr/advertising/pkg/models"
+	"github.com/zvrvdmtr/advertising/internal/models"
 )
 
 type AdDTO struct {

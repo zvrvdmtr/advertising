@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zvrvdmtr/advertising/pkg/models"
-	"github.com/zvrvdmtr/advertising/pkg/services"
+	"github.com/zvrvdmtr/advertising/internal/models"
+	"github.com/zvrvdmtr/advertising/internal/services"
 )
 
 func GetList(conn models.DbConnection) http.HandlerFunc {
