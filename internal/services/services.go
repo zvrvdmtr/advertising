@@ -2,7 +2,8 @@ package services
 
 import (
 	"time"
-	"github.com/zvrvdmtr/advertising/internal/models"
+	"github.com/zvrvdmtr/advertising/internal/domain"
+	"github.com/zvrvdmtr/advertising/internal/repository"
 )
 
 type AdDTO struct {
@@ -22,8 +23,8 @@ type AdsDTO struct {
 }
 
 
-func GetAds(conn models.DbConnection, pageNumber int) ([]AdsDTO, error) {
-	ads, err := models.All(conn, pageNumber)
+func GetAds(conn repository.DbConnection, pageNumber int) ([]AdsDTO, error) {
+	ads, err := repository.All(conn, pageNumber)
 	var adsdto []AdsDTO
 	for _, ad := range ads {
 		dto := AdsDTO{Id: ad.Id, Name: ad.Name, Price: ad.Price}
@@ -38,8 +39,8 @@ func GetAds(conn models.DbConnection, pageNumber int) ([]AdsDTO, error) {
 	return adsdto, err
 }
 
-func GetAdById(conn models.DbConnectionRow, id int, params []string) (AdDTO, error) {
-	ad, err := models.Get(conn, id)
+func GetAdById(conn repository.DbConnectionRow, id int, params []string) (AdDTO, error) {
+	ad, err := repository.Get(conn, id)
 	dto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price, Photos: nil, Created: &ad.Created}
 	for _, param := range params {
 		switch param {
@@ -55,8 +56,8 @@ func GetAdById(conn models.DbConnectionRow, id int, params []string) (AdDTO, err
 	return dto, nil
 }
 
-func CreateAd(conn models.DbConnectionRow, ad models.Ad) (models.Ad, error) {
-	newAd, err := models.Create(conn, ad)
+func CreateAd(conn repository.DbConnectionRow, ad domain.Ad) (domain.Ad, error) {
+	newAd, err := repository.Create(conn, ad)
 	if err != nil {
 		return newAd, err
 	}

@@ -8,11 +8,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zvrvdmtr/advertising/internal/models"
+	"github.com/zvrvdmtr/advertising/internal/domain"
+	"github.com/zvrvdmtr/advertising/internal/repository"
 	"github.com/zvrvdmtr/advertising/internal/services"
 )
 
-func GetList(conn models.DbConnection) http.HandlerFunc {
+func GetList(conn repository.DbConnection) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -46,7 +47,7 @@ func GetList(conn models.DbConnection) http.HandlerFunc {
 	}
 }
 
-func GetAd(conn models.DbConnectionRow) http.HandlerFunc {
+func GetAd(conn repository.DbConnectionRow) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -72,7 +73,7 @@ func GetAd(conn models.DbConnectionRow) http.HandlerFunc {
 	}
 }
 
-func CreateAd(conn models.DbConnectionRow) http.HandlerFunc {
+func CreateAd(conn repository.DbConnectionRow) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -86,7 +87,7 @@ func CreateAd(conn models.DbConnectionRow) http.HandlerFunc {
 			return
 		}
 
-		var ad models.Ad
+		var ad domain.Ad
 		err = json.Unmarshal(body, &ad)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)

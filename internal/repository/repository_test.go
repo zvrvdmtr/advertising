@@ -1,4 +1,4 @@
-package models
+package repository
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v4"
+	"github.com/zvrvdmtr/advertising/internal/domain"
 )
 
 type MockRow struct {
@@ -34,11 +35,11 @@ func (testConnection TestConnection) QueryRow(ctx context.Context, sql string, a
 	return mock
 }
 
-var expectedAd = Ad{1, "Vaz 2101", "Hello!", 100.01, []string{"123"}, time.Now()}
+var expectedAd = domain.Ad{1, "Vaz 2101", "Hello!", 100.01, []string{"123"}, time.Now()}
 
 func TestCreateAd(test *testing.T) {
 	mockConnection := TestConnection{}
-	mockAd := Ad{}
+	mockAd := domain.Ad{}
 	newAd, _ := Create(mockConnection, mockAd)
 	if (newAd.Id != expectedAd.Id) || (newAd.Name != expectedAd.Name) || (newAd.Price != expectedAd.Price) {
 		test.Errorf("got %v want %v", newAd, expectedAd)

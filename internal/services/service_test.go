@@ -5,7 +5,7 @@ import (
 	"testing"
 	"reflect"
 	"github.com/jackc/pgx/v4"
-	"github.com/zvrvdmtr/advertising/internal/models"
+	"github.com/zvrvdmtr/advertising/internal/domain"
 )
 
 type MockRow struct {
@@ -67,7 +67,7 @@ func TestGetByIdWithoutParam(test *testing.T) {
 
 func TestCreateAd(test *testing.T) {
 	mockConnection := TestConnection{}
-	newAd, _ := CreateAd(mockConnection, models.Ad{})
+	newAd, _ := CreateAd(mockConnection, domain.Ad{})
 	if (newAd.Id != int64(mockRow.Id)) || (newAd.Name != mockRow.Name) || (newAd.Price != mockRow.Price) {
 		test.Errorf("got %v want %v", newAd, mockRow)
 	}

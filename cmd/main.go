@@ -7,12 +7,12 @@ import (
 
 	"github.com/zvrvdmtr/advertising/internal/api"
 	"github.com/zvrvdmtr/advertising/internal/handler"
-	"github.com/zvrvdmtr/advertising/internal/models"
+	"github.com/zvrvdmtr/advertising/internal/repository"	
 	"os"
 )
 
 func main() {
-	conn, err := models.InitDB(os.Getenv("DATABASE_URL"))
+	conn, err := repository.InitDB(os.Getenv("DATABASE_URL"))
 	port := os.Getenv("PORT")
 	if err != nil {
 		fmt.Println(err.Error())
