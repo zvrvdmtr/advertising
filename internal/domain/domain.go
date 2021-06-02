@@ -50,3 +50,15 @@ func (a *Ad) UnmarshalJSON(data []byte) error {
 	a.Created = time.Now()
 	return nil
 }
+
+type AdRepositoryIterface interface {
+	Get(id int) (Ad, error)
+	All(pageNumber int) ([]Ad, error)
+	Create(ad Ad) (Ad, error)
+}
+
+type AdServiceInterface interface {
+	GetAds(pageNumber int) ([]Ad, error)
+	GetAdById(id int, params []string) (Ad, error)
+	CreateAd(ad Ad) (Ad, error)
+}
