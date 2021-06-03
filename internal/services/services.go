@@ -31,6 +31,10 @@ func NewAdService(repo domain.AdRepositoryIterface) domain.AdServiceInterface {
 
 func (adService AdService) GetAds(pageNumber int) ([]domain.Ad, error) {
 	ads, err := adService.adRepo.All(pageNumber)
+	if err != nil {
+		return nil, err
+	}
+
 	var adsdto []AdsDTO
 	for _, ad := range ads {
 		dto := AdsDTO{Id: ad.Id, Name: ad.Name, Price: ad.Price}
@@ -40,9 +44,6 @@ func (adService AdService) GetAds(pageNumber int) ([]domain.Ad, error) {
 		adsdto = append(adsdto, dto)
 	}
 	// FIXME: Change return value
-	if err != nil {
-		return make([]domain.Ad, 0), err
-	}
 	return make([]domain.Ad, 0), err
 }
 

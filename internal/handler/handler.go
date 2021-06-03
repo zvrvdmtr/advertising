@@ -50,7 +50,7 @@ func GetList(service domain.AdServiceInterface) http.HandlerFunc {
 		var pageNumber int
 		var err error
 		if page != "" {
-			pageNumber, err = strconv.Atoi(r.URL.Query().Get("page"))
+			pageNumber, err = strconv.Atoi(page)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
@@ -120,7 +120,11 @@ func CreateAd(service domain.AdServiceInterface) http.HandlerFunc {
 			return
 		}
 
-		newAd, _ := service.CreateAd(ad)
+		newAd, err := service.CreateAd(ad)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 
 		response, err := json.Marshal(newAd)
 		if err != nil {

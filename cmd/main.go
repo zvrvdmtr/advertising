@@ -15,13 +15,14 @@ import (
 func main() {
 	// conn, err := repository.InitDB(os.Getenv("DATABASE_URL"))
 	conn, err := repository.InitDB("postgres://postgres:postgres@localhost:5432")
-	// port := os.Getenv("PORT")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
+	
+	// port := os.Getenv("PORT")
 	fmt.Println("Start migrating")
-	_, err = conn.Exec(context.Background(), `create table ad (
+	_, err = conn.Exec(context.Background(), `create table if not exists ad (
 		id serial primary key,
 		name varchar(200) not null,
 		description varchar(1000),
