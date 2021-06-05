@@ -3,7 +3,6 @@ package services
 import (
 	"time"
 	"github.com/zvrvdmtr/advertising/internal/domain"
-	"github.com/zvrvdmtr/advertising/internal/repository"
 )
 
 type AdDTO struct {
@@ -22,9 +21,20 @@ type AdsDTO struct {
 	Photo 	string
 }
 
+type AdService struct {
+	adRepo domain.AdRepositoryIterface
+}
 
-func GetAds(conn repository.DbConnection, pageNumber int) ([]AdsDTO, error) {
-	ads, err := repository.All(conn, pageNumber)
+func NewAdService(repo domain.AdRepositoryIterface) domain.AdServiceInterface {
+	return AdService{repo}
+}
+
+func (adService AdService) GetAds(pageNumber int) ([]domain.Ad, error) {
+	ads, err := adService.adRepo.All(pageNumber)
+	if err != nil {
+		return nil, err
+	}
+
 	var adsdto []AdsDTO
 	for _, ad := range ads {
 		dto := AdsDTO{Id: ad.Id, Name: ad.Name, Price: ad.Price}
@@ -33,14 +43,12 @@ func GetAds(conn repository.DbConnection, pageNumber int) ([]AdsDTO, error) {
 		}
 		adsdto = append(adsdto, dto)
 	}
-	if err != nil {
-		return adsdto, err
-	}
-	return adsdto, err
+	// FIXME: Change return value
+	return make([]domain.Ad, 0), err
 }
 
-func GetAdById(conn repository.DbConnectionRow, id int, params []string) (AdDTO, error) {
-	ad, err := repository.Get(conn, id)
+func (adService AdService) GetAdById(id int, params []string) (domain.Ad, error) {
+	ad, err := adService.adRepo.Get(id)
 	dto := AdDTO{Id: &ad.Id, Name: &ad.Name, Price: &ad.Price, Photos: nil, Created: &ad.Created}
 	for _, param := range params {
 		switch param {
@@ -50,14 +58,15 @@ func GetAdById(conn repository.DbConnectionRow, id int, params []string) (AdDTO,
 			dto.Photos = &ad.Photos
 		}
 	}
+	// FIXME: Change return value
 	if err != nil {
-		return dto, err
+		return domain.Ad{}, err
 	}
-	return dto, nil
+	return domain.Ad{}, nil
 }
 
-func CreateAd(conn repository.DbConnectionRow, ad domain.Ad) (domain.Ad, error) {
-	newAd, err := repository.Create(conn, ad)
+func (adService AdService) CreateAd(ad domain.Ad) (domain.Ad, error) {
+	newAd, err := adService.adRepo.Create(ad)
 	if err != nil {
 		return newAd, err
 	}
